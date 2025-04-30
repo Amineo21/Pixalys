@@ -1,16 +1,22 @@
 from PIL import Image
 import numpy as np
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+import pytesseract
+from tensorflow.keras.applications import mobilenet_v2
+
+# Spécifie le chemin de Tesseract si nécessaire
+# pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 def prepare_image(image, target_size=(224, 224)):
-    """Prépare l’image pour MobileNet"""
     image = image.resize(target_size)
     image = image.convert("RGB")
     img_array = np.array(image)
     img_array = np.expand_dims(img_array, axis=0)
-    img_array = preprocess_input(img_array)
+    img_array = mobilenet_v2.preprocess_input(img_array)
     return img_array
-def load_image(path):
-    """Charge l'image"""
-    img = Image.open(path)
-    return img
+
+def extract_brand_text(image):
+    try:
+        text = pytesseract.image_to_string(image)
+        return text.strip()
+    except Exception:
+        return ""

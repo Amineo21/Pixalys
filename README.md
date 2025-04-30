@@ -6,6 +6,7 @@ flask
 tensorflow
 pillow
 numpy
+pytesseract
 
 ->Puis entrer dans le terminal shell cet commande :
  pip install -r requirements.txt   
