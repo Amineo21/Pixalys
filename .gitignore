@@ -1,0 +1,15 @@
+# Fichiers Python inutiles
+__pycache__/
+*.pyc
+
+# Checkpoints / modèles
+*.h5
+
+# Dossiers de données
+data/
+dataset/
+CompCars/
+*.zip
+
+# Logs
+*.log
