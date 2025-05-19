@@ -33,8 +33,8 @@ Pour ce projet vous avez besoin de télécharger uniquement la partie Web-nature
 
 Petite Precision : Le model a déjà été entrainé une première fois en effectuant Python Train.py vous améliorer le modèle en entrainant les dernières couches du modèle pré entrainé.
 
-python clean.py
-python train.py
+* python clean.py
+* python train.py
 
 ## 🥇 **Pour Tester le model** 
 
