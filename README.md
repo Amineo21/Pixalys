@@ -1,9 +1,19 @@
-pip install torch torchvision pillow scipy numpy matplotlib
 # 🚗 Vehicle Recognition with ResNet50 and CompCars
 
 This project trains a fine-tuned ResNet50 model on the [CompCars](http://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/index.html) dataset to recognize car **make and model** from images.
 
 ## 📁 Project Structure
+
+
+CompCars/
+├── Image/
+│   ├── ...
+├── ...
+models/
+├── marque_modèle_2
+├── marque_modèle_2
+class_name.json
+└── ...
 
 
 ## ⚙️ Setup
