@@ -13,3 +13,4 @@ CompCars/
 
 # Logs
 *.log
+/data.zip
