@@ -5,14 +5,15 @@ from PIL import Image
 import json
 
 # Charger les noms de classes
-with open("class_names.json", "r", encoding="utf-8") as f:
+with open("class_name.json", "r", encoding="utf-8") as f:
     class_names = json.load(f)
 
 # Charger le modèle ResNet50
 model = models.resnet50(weights=None)
 num_classes = len(class_names)
 model.fc = nn.Linear(model.fc.in_features, num_classes)
-model.load_state_dict(torch.load("models/resnet50_compcars.pth", map_location=torch.device('cpu')))
+checkpoint = torch.load("models/resnet50_compcars.pth", map_location=torch.device('cpu'))
+model.load_state_dict(checkpoint["model_state_dict"])
 model.eval()
 
 # Prétraitement de l'image
@@ -24,14 +25,29 @@ transform = transforms.Compose([
 ])
 
 # Charger l'image à prédire
-image_path = "Voiture2.jpg"  # Assure-toi qu'elle est bien dans le dossier
+image_path = "uploads/AS3Sedan.jpg"  # Assure-toi qu'elle est bien dans le dossier
 image = Image.open(image_path).convert('RGB')
 input_tensor = transform(image).unsqueeze(0)
 
 # Prédiction
 with torch.no_grad():
     output = model(input_tensor)
-    predicted_idx = output.argmax(1).item()
-    predicted_class = class_names[predicted_idx]
+    probs = torch.softmax(output, dim=1)
+    top3 = torch.topk(probs, 3)
+    print("Top 3 prédictions :")
+    filtered = []
+    model_ids = sorted(class_names.keys())
+    for idx, score in zip(top3.indices[0], top3.values[0]):
+        idx = idx.item()
+        model_id = model_ids[idx]
+        name = class_names.get(model_id, "Unknown")
+        print(f"Indice : {idx} | model_id : {model_id} | Classe : {name} | Score : {score:.4f}")
+        if name != "Unknown":
+            filtered.append((model_id, name, score.item()))
 
-print("Prédiction :", predicted_class)
+    if filtered:
+        # Prédiction finale : la classe connue avec le score le plus élevé dans le top 3
+        final_model_id, final_name, final_score = max(filtered, key=lambda x: x[2])
+        print(f"\nPrédiction finale (classe connue) : {final_name} (model_id : {final_model_id}, score : {final_score:.4f})")
+    else:
+        print("\nPrédiction finale : Aucune classe connue dans le top 3")
