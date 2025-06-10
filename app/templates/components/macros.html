@@ -1,0 +1,75 @@
+<script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+{% macro button(label, href='#', color='blue') %}
+  <a href="{{ href }}" class="px-4 py-2 rounded-lg text-white bg-{{ color }}-600 hover:bg-{{ color }}-700 transition">
+    {{ label }}
+  </a>
+
+{% endmacro %}
+
+{% macro card(title, content, image_url='#', button_text='Voir plus', link='#') %}
+<div class="max-w-4xl mx-auto flex flex-col md:flex-row bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900
+            border border-blue-500 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 
+            hover:scale-[1.01] hover:shadow-blue-500/30 ring-1 ring-blue-500/10 animate-fade-in">
+
+  <!-- Image -->
+  <div class="md:w-1/2 w-full relative">
+    <img src="{{ image_url }}" alt="Image de la carte"
+         class="h-64 w-full object-cover transition-transform duration-300 hover:scale-105" />
+    <div class="absolute inset-0 bg-black/30 backdrop-blur-sm opacity-0 hover:opacity-100 transition duration-300"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="md:w-1/2 w-full p-6 flex flex-col justify-center text-center md:text-left space-y-4">
+    <h3 class="text-2xl font-semibold text-white tracking-tight">{{ title }}</h3>
+    <p class="text-blue-200">{{ content }}</p>
+    <div>
+      <a href="{{ link }}"
+         class="inline-block px-5 py-2 text-sm font-medium text-white bg-blue-600 
+                rounded-lg transition hover:bg-blue-500 hover:shadow-lg shadow-blue-500/30 
+                ring-1 ring-blue-500/20">
+        {{ button_text }}
+      </a>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro card_with_links(title, content, image_url='#', links=[]) %}
+<div class="max-w-4xl mx-auto flex flex-col md:flex-row bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900
+            border border-blue-500 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 
+            hover:scale-[1.01] hover:shadow-blue-500/30 ring-1 ring-blue-500/10 animate-fade-in">
+
+  <!-- Image -->
+  <div class="md:w-1/2 w-full relative">
+    <img src="{{ image_url }}" alt="Image de la carte"
+         class="h-64 w-full object-cover transition-transform duration-300 hover:scale-105" />
+    <div class="absolute inset-0 bg-black/30 backdrop-blur-sm opacity-0 hover:opacity-100 transition duration-300"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="md:w-1/2 w-full p-6 flex flex-col justify-center text-center md:text-left space-y-4">
+    <h3 class="text-2xl font-semibold text-white tracking-tight">{{ title }}</h3>
+    <p class="text-blue-200">{{ content }}</p>
+
+    <div class="space-y-2">
+      {% for link in links %}
+      <a href="{{ link }}" target="_blank"
+         class="inline-block w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 
+                rounded-lg transition hover:bg-blue-500 hover:shadow-lg shadow-blue-500/30 
+                ring-1 ring-blue-500/20 text-center">
+        🔗 Voir sur {{ link | replace("https://", "") | replace("http://", "") | replace("www.", "") | replace("/", "") }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>L'historique des images</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 40px;
+        background: #fafafa;
+      }
+      h1 {
+        color: #333;
+      }
+      .image-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .image-grid img {
+        max-width: 200px;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
+      }
+      .image-grid img:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Historique des images</h1>
+
+    {% if images %}
+    <div class="image-grid">
+      {% for img_url in images %} {% set filename = img_url.split('/')[-1] %}
+      <a href="{{ url_for('main.predict_from_history', filename=filename) }}">
+        <img src="{{ img_url }}" alt="Uploaded image" />
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p>No d images yet.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('main.index2') }}">← Retour à la prédiction</a></p>
+  </body>
+</html>
