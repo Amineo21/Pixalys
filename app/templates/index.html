@@ -1,81 +1,101 @@
 <!DOCTYPE html>
 <html lang="fr" class="">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHAZAMCAR</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class'
-    }
-  </script>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 120vh;
-    }
-  </style>
-  <script>
-    // Appliquer le thème avant que le DOM ne soit visible
-    if (
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  </script>
-</head>
-<body class="bg-white text-gray-800 flex flex-col transition-colors duration-300 dark:bg-[#0B131E] dark:text-white">
-  <header class="container mx-auto px-4 py-6">
-    <div class="flex justify-between items-center">
-      <div class="text-2xl font-bold text-black dark:text-white">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SHAZAMCAR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 120vh;
+      }
+    </style>
+    <script>
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
+  </head>
+  <body
+    class="bg-white text-gray-800 flex flex-col transition-colors duration-300 dark:bg-[#0B131E] dark:text-white"
+  >
+    <header class="container mx-auto px-4 py-6">
+      <div class="flex justify-between items-center">
+        <div class="text-2xl font-bold text-black dark:text-white">
+          SHAZAM<span class="text-[#0182D5]">CAR</span>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <button
+            class="px-4 py-2 text-gray-700 font-medium hover:text-gray-900 dark:text-white"
+          >
+            Log in
+          </button>
+          <button
+            class="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Sign up
+          </button>
+
+          <!-- Dark Mode Toggle -->
+          <button
+            onclick="toggleDarkMode()"
+            class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-black dark:text-white rounded"
+          >
+            🌓 Mode
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow flex flex-col items-center justify-center px-4">
+      <div
+        class="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white"
+      >
         SHAZAM<span class="text-[#0182D5]">CAR</span>
       </div>
 
-      <div class="flex items-center space-x-4">
-        <button class="px-4 py-2 text-gray-700 font-medium hover:text-gray-900 dark:text-white">Log in</button>
-        <button class="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors">Sign up</button>
+      <p class="text-xl mb-8 text-gray-600 dark:text-gray-300">
+        Votre œil d'export auto en un clic !
+      </p>
 
-        <!-- Dark Mode Toggle -->
-        <button onclick="toggleDarkMode()" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-black dark:text-white rounded">
-          🌓 Mode
+      <a href="{{ url_for('main.index2') }}">
+        <button
+          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors"
+        >
+          START NOW
         </button>
+      </a>
+    </main>
+
+    <footer class="bg-gray-50 dark:bg-gray-900 py-8 transition-colors">
+      <div
+        class="container mx-auto px-4 text-center text-sm text-gray-500 dark:text-gray-400"
+      >
+        © 2025 SHAZAMCAR. All rights reserved.
       </div>
-    </div>
-  </header>
+    </footer>
 
-  <main class="flex-grow flex flex-col items-center justify-center px-4">
-    <div class="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
-      SHAZAM<span class="text-[#0182D5]">CAR</span>
-    </div>
-
-    <p class="text-xl mb-8 text-gray-600 dark:text-gray-300">Votre œil d'export auto en un clic !</p>
-
-    <a href="{{ url_for('main.index2') }}">
-      <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors">
-        START NOW
-      </button>
-    </a>
-  </main>
-
-  <footer class="bg-gray-50 dark:bg-gray-900 py-8 transition-colors">
-    <div class="container mx-auto px-4 text-center text-sm text-gray-500 dark:text-gray-400">
-      © 2025 SHAZAMCAR. All rights reserved.
-    </div>
-  </footer>
-
-  <script>
-    function toggleDarkMode() {
-      const html = document.documentElement;
-      const isDark = html.classList.toggle('dark');
-      localStorage.theme = isDark ? 'dark' : 'light';
-    }
-  </script>
-</body>
+    <script>
+      function toggleDarkMode() {
+        const html = document.documentElement;
+        const isDark = html.classList.toggle("dark");
+        localStorage.theme = isDark ? "dark" : "light";
+      }
+    </script>
+  </body>
 </html>
-

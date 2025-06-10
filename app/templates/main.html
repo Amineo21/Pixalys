@@ -1,143 +1,205 @@
 <!DOCTYPE html>
 <html lang="en" class="">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHAZAMCAR</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SHAZAMCAR</title>
 
-  <script>
-    if (
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  </script>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' }
-  </script>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 120vh;
-    }
-  </style>
-</head>
-
-<body class="bg-white text-gray-800 flex flex-col space-y-[60px] transition-colors duration-300 dark:bg-[#0B131E] dark:text-white">
-  <header class="container mx-auto px-4 py-6">
-    <div class="flex justify-between items-center">
-      <div class="text-2xl font-bold text-gray-900 dark:text-white">
-        SHAZAM<span class="text-[#0182D5]">CAR</span>
-      </div>
-      <nav class="hidden md:flex space-x-8 items-center">
-        <div class="flex space-x-4 ml-8">
-          <button class="px-4 py-2 text-gray-700 font-medium hover:text-gray-900 dark:text-white">Log in</button>
-          <button class="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors">Sign up</button>
-        </div>
-      </nav>
-      <button class="md:hidden text-gray-700 dark:text-white">☰</button>
-    </div>
-  </header>
-
-  <h1 class="text-center text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-300 dark:from-white dark:to-blue-200 animate-fade-in">
-    Comment puis-je vous aider&nbsp;?
-  </h1>
-
-  <main class="flex flex-row md:flex-col items-center justify-center gap-12 px-4 py-8">
-
-    <!-- Formulaire avec zone de téléchargement -->
-    <form method="POST" enctype="multipart/form-data" class="w-full md:w-1/2 flex items-center justify-center">
-      <button type="submit" class="hidden" id="submit-btn"></button>
-
-      <label for="dropzone-file"
-             class="relative group flex flex-col items-center justify-center w-full h-72 border-2 border-dashed rounded-xl cursor-pointer 
-                    bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 
-                    border-blue-500 hover:border-blue-400 transition-all duration-300 ease-in-out ring-1 ring-blue-500/20 hover:ring-2 hover:ring-blue-400/50 overflow-hidden">
-
-        <div class="absolute inset-0 rounded-xl bg-white/5 backdrop-blur-sm pointer-events-none"></div>
-
-        <!-- Aperçu image -->
-        <img id="preview-image" class="hidden absolute inset-0 w-full h-full object-cover rounded-xl z-0 opacity-0 transition-opacity duration-300" />
-
-        <!-- Spinner -->
-        <div id="loading-spinner" class="hidden z-10 animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-400"></div>
-
-        <!-- Texte -->
-        <div id="upload-content" class="z-10 flex flex-col items-center justify-center pt-5 pb-6 text-center transition-opacity duration-300">
-          <svg class="w-10 h-10 mb-4 text-blue-400 group-hover:scale-110 transition-transform duration-300"
-               xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 
-                  5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 
-                  0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-          </svg>
-          <p class="mb-2 text-sm text-blue-200">
-            <span class="font-semibold text-blue-400">Cliquez ou glissez un fichier</span>
-          </p>
-          <p class="text-xs text-blue-300">JPG, PNG, GIF (max 800×400px)</p>
-        </div>
-
-        <input id="dropzone-file" name="file" type="file" class="hidden" accept="image/*" onchange="handleFileUpload(event)" />
-      </label>
-    </form>
-
-    <!-- Résultat prédiction -->
-    {% from "components/macros.html" import card_with_links %}
-    {% if prediction %}
-      <div class="w-full md:w-2/3 mx-auto mt-6">
-        {{ card_with_links(
-            title=prediction,
-            content="Voici les résultats associés à votre prédiction.",
-            image_url=image_path,
-            links=links
-        ) }}
-      </div>
-    {% endif %}
-
-  </main>
-
-  <script>
-    function handleFileUpload(event) {
-      const file = event.target.files[0];
-      const preview = document.getElementById('preview-image');
-      const loading = document.getElementById('loading-spinner');
-      const content = document.getElementById('upload-content');
-      const submitBtn = document.getElementById('submit-btn');
-
-      if (!file || !file.type.startsWith('image/')) {
-        alert("Veuillez sélectionner une image valide.");
-        return;
+    <script>
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
       }
+    </script>
 
-      loading.classList.remove('hidden');
-      content.classList.add('opacity-30');
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { darkMode: "class" };
+    </script>
 
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        preview.src = e.target.result;
-        preview.classList.remove('hidden');
-        preview.classList.add('opacity-100');
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-        setTimeout(() => {
-          submitBtn.click();  // Envoie du formulaire
-        }, 800);
-      };
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 120vh;
+      }
+    </style>
+  </head>
 
-      reader.readAsDataURL(file);
-    }
-  </script>
-</body>
+  <body
+    class="bg-white text-gray-800 flex flex-col space-y-[60px] transition-colors duration-300 dark:bg-[#0B131E] dark:text-white"
+  >
+    <header class="container mx-auto px-4 py-6">
+      <div class="flex justify-between items-center">
+        <div class="text-2xl font-bold text-gray-900 dark:text-white">
+          SHAZAM<span class="text-[#0182D5]">CAR</span>
+        </div>
+        <nav class="hidden md:flex space-x-8 items-center">
+          <div class="flex space-x-4 ml-8">
+            <button
+              class="px-4 py-2 text-gray-700 font-medium hover:text-gray-900 dark:text-white"
+            >
+              Log in
+            </button>
+            <button
+              class="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Sign up
+            </button>
+          </div>
+        </nav>
+        <button class="md:hidden text-gray-700 dark:text-white">☰</button>
+      </div>
+    </header>
+
+    <h1
+      class="text-center text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-300 dark:from-white dark:to-blue-200 animate-fade-in"
+    >
+      Comment puis-je vous aider&nbsp;?
+    </h1>
+
+    <main class="flex flex-col items-center justify-center gap-12 px-4 py-8">
+      <!-- Formulaire de téléchargement -->
+      <form
+        method="POST"
+        enctype="multipart/form-data"
+        class="w-full md:w-1/2 flex items-center justify-center"
+      >
+        <button type="submit" class="hidden" id="submit-btn"></button>
+
+        <label
+          for="dropzone-file"
+          class="relative group flex flex-col items-center justify-center w-full h-72 border-2 border-dashed rounded-xl cursor-pointer bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border-blue-500 hover:border-blue-400 transition-all duration-300 ease-in-out ring-1 ring-blue-500/20 hover:ring-2 hover:ring-blue-400/50 overflow-hidden"
+        >
+          <div
+            class="absolute inset-0 rounded-xl bg-white/5 backdrop-blur-sm pointer-events-none"
+          ></div>
+
+          <img
+            id="preview-image"
+            class="hidden absolute inset-0 w-full h-full object-cover rounded-xl z-0 opacity-0 transition-opacity duration-300"
+          />
+
+          <div
+            id="loading-spinner"
+            class="hidden z-10 animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-400"
+          ></div>
+
+          <div
+            id="upload-content"
+            class="z-10 flex flex-col items-center justify-center pt-5 pb-6 text-center transition-opacity duration-300"
+          >
+            <svg
+              class="w-10 h-10 mb-4 text-blue-400 group-hover:scale-110 transition-transform duration-300"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 16"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 
+                  5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 
+                  0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+              />
+            </svg>
+            <p class="mb-2 text-sm text-blue-200">
+              <span class="font-semibold text-blue-400"
+                >Cliquez ou glissez un fichier</span
+              >
+            </p>
+            <p class="text-xs text-blue-300">JPG, PNG, GIF (max 800×400px)</p>
+          </div>
+
+          <input
+            id="dropzone-file"
+            name="file"
+            type="file"
+            class="hidden"
+            accept="image/*"
+            onchange="handleFileUpload(event)"
+          />
+        </label>
+      </form>
+
+      <!-- Résultat prédiction -->
+      {% from "components/macros.html" import card_with_links %} {% if
+      prediction %}
+      <div class="w-full md:w-2/3 mx-auto mt-6">
+        {{ card_with_links( title=prediction, content="Voici les résultats
+        associés à votre prédiction.", image_url=image_path, links=links ) }}
+      </div>
+      {% endif %}
+
+      <!-- Historique des images uploadées -->
+      {% if history_images %}
+      <section class="w-full max-w-5xl mx-auto mt-10">
+        <h2 class="text-xl font-semibold mb-4">Historique des prédictions</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {% for img in history_images %} {% set filename = img.split('/')[-1]
+          %}
+          <a
+            href="{{ url_for('main.predict_from_history', filename=filename) }}"
+          >
+            <img
+              src="{{ img }}"
+              class="w-full h-32 object-cover rounded-lg hover:scale-105 transition-transform"
+              alt="Image historique"
+            />
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    </main>
+
+    <script>
+      function handleFileUpload(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById("preview-image");
+        const loading = document.getElementById("loading-spinner");
+        const content = document.getElementById("upload-content");
+        const submitBtn = document.getElementById("submit-btn");
+
+        if (!file || !file.type.startsWith("image/")) {
+          alert("Veuillez sélectionner une image valide.");
+          return;
+        }
+
+        loading.classList.remove("hidden");
+        content.classList.add("opacity-30");
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.src = e.target.result;
+          preview.classList.remove("hidden");
+          preview.classList.add("opacity-100");
+
+          setTimeout(() => {
+            submitBtn.click();
+          }, 800);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    </script>
+  </body>
 </html>
-
-

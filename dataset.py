@@ -57,7 +57,7 @@ class CompCarsDataset(Dataset):
         parts = rel_path.split(os.sep)
         if len(parts) < 3:
             raise ValueError(f"Ligne mal formée : {rel_path}")
-        model_id = parts[1]  # 2ème dossier = model_id
+        model_id = parts[1]
 
         label = self.class_to_idx[model_id]
 

@@ -25,7 +25,7 @@ transform = transforms.Compose([
 ])
 
 # Charger l'image à prédire
-image_path = "uploads/AS3Sedan.jpg"  # Assure-toi qu'elle est bien dans le dossier
+image_path = "uploads/AS3Sedan.jpg"
 image = Image.open(image_path).convert('RGB')
 input_tensor = transform(image).unsqueeze(0)
 

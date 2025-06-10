@@ -1,4 +1,4 @@
-input_file = 'CompCars/train_test_split/classification/train.txt'  # ou train_all.txt si tu as ce fichier
+input_file = 'CompCars/train_test_split/classification/train.txt'
 output_file = 'CompCars/train_test_split/classification_clean/train_all_clean.txt'
 
 clean_paths = []
