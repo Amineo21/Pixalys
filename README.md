@@ -26,6 +26,23 @@ Petite Precision : Le dataset CompCars est divisé en deux parties :​
 
 2. Installe les dépendances : pip install torch torchvision pillow scipy numpy matplotlib
 
+3. pip install -r requirements.txt
+
+4. conda env create -f environment.yml
+   conda activate pixalys-env
+
+## 🐳 Lancer avec Docker\*\*
+
+Pour lancer le Docker, vous devez allez dans la racine du projet
+
+Et build les images Dockers :
+
+- docker compose build
+
+Puis, lancer les containers :
+
+- docker compose up
+
 ## 🎯 **Pour entrainer le model**
 
 Petite Precision : Le model a déjà été entrainé une première fois en effectuant Python Train.py vous améliorer le modèle en entrainant les dernières couches du modèle pré entrainé.
@@ -36,3 +53,7 @@ Petite Precision : Le model a déjà été entrainé une première fois en effec
 ## 🥇 **Pour Tester le model**
 
 python test_model.py
+
+## ✅​ **Pour effectuer les tests unitaires **
+
+python test_routes.py
